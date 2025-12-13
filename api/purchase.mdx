@@ -13,278 +13,65 @@ Purchase Minecraft accounts using the API.
 GET https://api.nicealts.com/v1/generate
 ```
 
-## Request Body
+## **Parameters**
 
-<ParamField path="account_type" type="string" required>
-  Type of account to purchase:
-
-  - `unbanned_accesstoken`
-  - `unbanned_cookie`
-  - `unbanned_emailpass`
-  - `banned_accesstoken`
-  - `banned_cookie`
-  - `banned_emailpass`
+<ParamField query="key" type="parameter" required>
+  Put your API Key here.
 </ParamField>
 
-<ParamField path="quantity" type="integer" required>
-  Number of accounts to purchase (1-50 per request)
+<ParamField query="type" path="quantity" type="parameter" required>
+  What type of AccessToken you would like to buy.
+
+  - `unbanned`
+  - `banned`
 </ParamField>
 
-<ParamField path="payment_method" default="credits" type="string">
-  Payment method: `credits` or `crypto`
+<ParamField query="amount" path="payment_method" type="parameter" required>
+  The amount of accounts you would like to purchase.Put your API Key here.
 </ParamField>
 
-## Request Examples
+<ParamField query="precheck" path="quantity" type="parameter" required="false">
+  If you would like to precheck your accounts.
+
+  - `none` No prechecking.
+  - `full` Prechecking.
+</ParamField>
+
+## Request Example
 
 <CodeGroup>
 
 ```bash cURL
-curl -X POST "https://api.nicealts.com/purchase" \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "account_type": "unbanned_accesstoken",
-    "quantity": 5,
-    "payment_method": "credits"
-  }'
-```
-
-
-```python Python
-import requests
-
-headers = {
-    "Authorization": "Bearer YOUR_API_KEY",
-    "Content-Type": "application/json"
-}
-
-data = {
-    "account_type": "unbanned_accesstoken",
-    "quantity": 5,
-    "payment_method": "credits"
-}
-
-response = requests.post(
-    "https://api.nicealts.com/purchase",
-    headers=headers,
-    json=data
-)
-
-result = response.json()
-print(result)
-```
-
-
-```javascript JavaScript
-const response = await fetch('https://api.nicealts.com/purchase', {
-  method: 'POST',
-  headers: {
-    'Authorization': 'Bearer YOUR_API_KEY',
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    account_type: 'unbanned_accesstoken',
-    quantity: 5,
-    payment_method: 'credits'
-  })
-});
-
-const result = await response.json();
-console.log(result);
+curl "https://api.nicealts.com/v1/generate?key=YOUR_API_KEY&type=banned&amount=1&precheck=full"
 ```
 
 </CodeGroup>
 
-## Response (Credits)
+## Response Example
 
 When using credits, accounts are delivered immediately:
 
-```json
-{
-  "success": true,
-  "purchase_id": "prc_1234567890",
-  "account_type": "unbanned_accesstoken",
-  "quantity": 5,
-  "total_cost": 50,
-  "remaining_credits": 450,
-  "accounts": [
-    {
-      "username": "Player123",
-      "access_token": "eyJhbGc...",
-      "uuid": "12345678-1234-1234-1234-123456789abc"
-    },
-    {
-      "username": "Player456",
-      "access_token": "eyJhbGc...",
-      "uuid": "87654321-4321-4321-4321-cba987654321"
-    }
-    // ... 3 more accounts
-  ],
-  "timestamp": "2024-12-13T10:30:00Z"
-}
-```
-
-## Response (Crypto)
-
-When using cryptocurrency, you'll receive payment instructions:
-
-```json
-{
-  "success": true,
-  "purchase_id": "prc_1234567890",
-  "payment_required": true,
-  "payment_details": {
-    "payment_id": "pay_abc123",
-    "amount": 0.00125,
-    "currency": "BTC",
-    "address": "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh",
-    "expires_at": "2024-12-13T11:00:00Z",
-    "status_url": "https://api.nicealts.com/payment/pay_abc123"
-  },
-  "message": "Please send payment to the address above. Accounts will be delivered once payment is confirmed."
-}
-```
-
-## Response Fields
-
-<ResponseField name="success" type="boolean">
-  Whether the purchase request was successful
-</ResponseField>
-
-<ResponseField name="purchase_id" type="string">
-  Unique identifier for this purchase
-</ResponseField>
-
-<ResponseField name="accounts" type="array">
-  Array of purchased accounts (only for credit purchases)
-
-  <Expandable title="Account Object">
-    <ResponseField name="username" type="string">
-      Minecraft username
-    </ResponseField>
-    <ResponseField name="access_token" type="string">
-      Access token for authentication (AccessToken accounts)
-    </ResponseField>
-    <ResponseField name="cookie" type="string">
-      Session cookie (Cookie accounts)
-    </ResponseField>
-    <ResponseField name="email" type="string">
-      Email address (Email:Pass accounts)
-    </ResponseField>
-    <ResponseField name="password" type="string">
-      Password (Email:Pass accounts)
-    </ResponseField>
-    <ResponseField name="uuid" type="string">
-      Minecraft UUID
-    </ResponseField>
-  </Expandable>
-</ResponseField>
-
-<ResponseField name="payment_details" type="object">
-  Payment information (only for crypto purchases)
-</ResponseField>
-
-## Checking Payment Status
-
-For crypto purchases, check payment status:
-
-```bash
-curl -X GET "https://api.nicealts.com/payment/pay_abc123" \
-  -H "Authorization: Bearer YOUR_API_KEY"
-```
-
-Response when paid:
-
-```json
-{
-  "status": "confirmed",
-  "purchase_id": "prc_1234567890",
-  "accounts": [
-    // ... delivered accounts
-  ]
-}
-```
-
-## Example Integration
-
-Complete purchase flow with error handling:
-
-```python
-import requests
-import time
-
-def purchase_accounts(api_key, account_type, quantity):
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json"
-    }
-    
-    # Check stock first
-    stock_response = requests.get(
-        "https://api.nicealts.com/stock",
-        headers=headers
-    )
-    
-    if stock_response.status_code != 200:
-        return {"error": "Failed to check stock"}
-    
-    stock = stock_response.json()
-    available = stock['stock'][account_type]['available']
-    
-    if available < quantity:
-        return {"error": f"Insufficient stock. Available: {available}"}
-    
-    # Make purchase
-    purchase_data = {
-        "account_type": account_type,
-        "quantity": quantity,
-        "payment_method": "credits"
-    }
-    
-    response = requests.post(
-        "https://api.nicealts.com/purchase",
-        headers=headers,
-        json=purchase_data
-    )
-    
-    if response.status_code == 200:
-        result = response.json()
-        print(f"✓ Purchase successful! Received {len(result['accounts'])} accounts")
-        return result
-    else:
-        return {"error": response.json()}
-
-# Example usage
-result = purchase_accounts(
-    "your_api_key",
-    "unbanned_accesstoken",
-    5
-)
+```yaml
+[ch_intentional15][MC][lobby:3.23][bw:2][sw:1][capes:Pan,Migrator]matias_suarez_2000@hotmail.com:24412120nicealts | mctoken: eyJraWQiOiIwNDkxODEiLCJhbGciOiJSUzI1NiJ9.eyJ4dWlkIjoiMjUzNTQwNzg5NDA0NjcxMCIsImFnZyI6IkFkdWx0Iiwic3ViIjoiMDZkZmZkYjAtYjE9MS00ZjBmLWE5ZGEtZjY1ZGE1MzQ2OTY1IrwiYXV0aCI6IlhCT1giLCJucyI6ImRlZmF1bHQiLCJyb2xlcyI6R10sImlzcyI6ImF1dGhlbnRpY2F0aW9uIiwiZmxhZ3MiOlsibXVsdGlwbGF5ZXIiLCJvcmRlcnNfMjAyMiIsIm1zYW1pZ3JhdGlvbl9zdGFnZTQiLCJ0d29mYWN0b3JhdXRoIl0sInByb2ZpbGVzIjp7Im1jIjoiZTZlNjA1ZmUtZGZmNS00YTg2LTk0MDUtZmU3N2IwMjExNzRmIn0sInBsYXRmb3JtIjoiUENfTEFVTkNIRVIiLCJwZmQiOlt7InR5cGUiOiJtYyIsImlkIjoiZTZlNjA1ZmUtZGZmNS00YTg2LTk0MDUtZmU3N2IwMjExNzRmIiwibmFtZSI6ImNoX2ludGVudGlvbmFsMTUifV0sIm5iZiI6MTc2NTYyMjk3MywiZXhwIjoxNzY1NzA5MzczLCJpYXQiOjE3NjU2MjI5NzMsImFpZCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDA0MDJiNTMyOCJ9.YlZ-aQbn9uiNRn4s6me4os0znCGvJdw23ypnFlAkhLiPRIm8oEhmWrmwvyGeMSydWPFIEr9U7jAwRIcjsu-BX32EFzzxeIId2ZP_eukpktOR17Ur9ol-s3BMazNCg5g6ZDxguDtewJezNPfkzML8BB98zfD8lURQ4Bx63y7WszN88xJU0gSr-tsipqFMMstKl7Rj_pCD3i6thoLmI2bW0JhE5gSi2FIC18jjWcvFZFkymfOqduainCL4VtPnA_4BjJVKC6rY2pGniwQhjV6eP8HCjix7DI8gAfeHMzz3WCLOVJFdPVCGFWKvgztpnTn0y-CEb_ys1tOTBAJ0Uly_Xg
+[aksenlightened61][XGP][XGPU][lobby:1][bw:0][sw:1][capes:Pan]seboliver272003@hotmail.com:Ilovenicealts14@ | mctoken: eyJraWQiOiIwNDkxODEiLCJhbGciOiJSUzI1NiJ9.eyJ4dWlkIjoiMjUzNTQ2ODI0MDg5MTQxMCIsImFnZyI6IkFkdWx0Iiwic3ViIjoiNDA2OTgyMjktM2Y1MS01ZDkxLTk5N2YtMDVjNDkzYWNhMDUwIiwiYXV0aCI6IlhCG1giLCJucyI6ImRlZmF1bHQiLCJyb2xlcyI6W10sImlzcyO6ImF1dGhlbnRpY2D0aW9uIiwiZmxhZ3MiOlsibXVsdGlwbGF5ZXIiLCJ0d29mYWN0b3JhdXRoIiwibXNhbWlncmF0aW9uX3N0YWdlNCIsIm9yZGVyc18yMDIyIl0sInByb2ZpbGVzIjp7Im1jIjoiMjEwZTVmZGQtYWE2OC00ZWE4LTkxNTgtNjkzNzMyOTYxZWZkIn0sInBsYXRmb3JtIjoiUENfTEFVTkNIRVIiLCJwZmQiOlt7InR5cGUiOiJtYyIsImlkIjoiMjEwZTVmZGQtYWE2OC00ZWE4LTkxNTgtNjkzNzMyOTYxZWZkIiwibmFtZSI6ImFrc2VubGlnaHRlbmVkNjEifV0sIm5iZiI6MTc2NTYyMjk3MiwiZXhwIjoxNzY1NzA5MzcyLCJpYXQiOjE3NjU2MjI5NzIsImFpZCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDA0MDJiNTMyOCJ9.ZW5lCo-S1cKlBCvDnU3A7V6zquZqfyT46z-F7Om4l56L-_LeYiPVK4kdgdLZ_7YS4dM3EUNEwawCdcailzv7qitHzOG4QcdS09M2e6ZKCCJEVEKzdQnZ6ehNyfIu2a6l9wjP1nz4xZTjF4FbvTmRd50eiEvo70abizOY7W49C3rtIt4BkIYSdsx-8rWBoEpORmawTuV7dlwFDF1ShqkI7ntSw4-GeOK7KKn3Nkck1RLlEciLegjQNAJxAv7tJJC9upAZnK7pLptOMeQtMxEZSuHl1KcRe_XhWMiYT8hFjd1jLx3gr7cmo6uMPP3q5KtU7Z-q44AFL1t1tmsYQNT2WA
+[Microsoft_Hit][MC][unban][43][Skyblock]rafaaaelmundim@hotmail.com:R24052002r@nicealts |McName:cyberzxyX [Hypixel: BW:18 SW:10 UHC-Coins:6470 MW-Coins:6470 Arcade:593570]Accesstoken:eyJraWQiOiIwNDkxODEiLCJhbGciOiJSUzI1NiJ9.eyJ4dWlkIjoiMjUzNTQyMTQ3ODg5Mzc1OSIsImFnZyI6IkFkdWx0Iiwic3ViIjoiMjM2OGI4NjItYkE5MC00MmQwLThmN2UtZjY5QTFmMDU2NzQ1IiwiYXV0aCI6IlhCT1giLCJucyI6ImRlZmF1bHQiLCJyb2xlcyI6W10sImlzcyI6ImF1dGhlbnRpY2F0aW9uIiwiZmxhZ3MiOlsibXVsdGlwbGF5ZXIiLCJ0d29mYWN0b3JhdXRoIiwibXNhbWlncmF0aW9uX3N0YWdlNCIsIm9yZGVyc18yMDIyIl0sInByb2ZpbGVzIjp7Im1jIjoiOTQyNTU1ZmEtNzg0NC00ODU3LWJjMGMtNDQyYTBjOTRjOWY2In0sInBsYXRmb3JtIjoiUENfTEFVTkNIRVIiLCJwZmQiOlt7InR5cGUiOiJtYyIsImlkIjoiOTQyNTU1ZmEtNzg0NC00ODU3LWJjMGMtNDQyYTBjOTRjOWY2IiwibmFtZSI6ImN5YmVyenh5WCJ9XSwibmJmIjoxNzY1NTg5NTAxLCJleHAiOjE3NjU2NzU5MDEsImlhdCI6MTc2NTU4OTUwMSwiYWlkIjoiMDAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAwMDRjMTJhZTZmIn0.VdMlcBi6yZDe7HDzsMY7VS44J5-RG7jpEWu1tpK53h1vMeLBPLhdwgbPxCFv4662Ge37xRGBGcecDawb1g4M3eK1Bnkp6_ZX8V3rDr4m45j2W5Xelzpktq2iQGCxTPYfItAo2sHKmbo4-oVIpi6Pwl5Xt2ovLUiw0_w1FuZAusetX2GnX3E-Su4OvPZYBfbWfxKLbsWBokR9rHHhX28QwbRfyaX-rViq4ZR9Pcw5yH8ff85sEHkuY-R-XmJJHEhBcxqHKJEFkl7ZK7lhknuBESY_eAwYnfv8oV_GGahArfAEsTBKzU0nThN2y0AW9w3Ev28Hvw7q8Kbded3hKM7g_Q|cyberzxyX|942555fa78444857bc0c442a0c94c9f6
 ```
 
 ## Error Responses
 
 <ResponseField name="400 Bad Request" type="error">
-  Invalid request parameters
+  Invalid type
 
   ```json
-  {
-    "error": "Invalid account type",
-    "status": 400
-  }
+  {"detail": "Type must be 'banned' or 'unbanned'"}
   ```
 </ResponseField>
 
-<ResponseField name="402 Payment Required" type="error">
+<ResponseField name="402 Insufficient credits" type="error">
   Insufficient credits
 
   ```json
-  {
-    "error": "Insufficient credits",
-    "status": 402,
-    "required": 50,
-    "available": 25
-  }
+  {"detail": "Insufficient credits"}
   ```
 </ResponseField>
 
@@ -292,33 +79,14 @@ result = purchase_accounts(
   Insufficient stock
 
   ```json
-  {
-    "error": "Insufficient stock",
-    "status": 409,
-    "requested": 10,
-    "available": 3
-  }
+  {"detail":"Insufficient stock"}
   ```
 </ResponseField>
 
 <ResponseField name="429 Too Many Requests" type="error">
-  Rate limit exceeded
+  Rate limit exceeded. You can send upto 100 requests per minute.
 
   ```json
-  {
-    "error": "Rate limit exceeded",
-    "status": 429,
-    "retry_after": 60
-  }
+  {"error": "Rate limit exceeded", "message": "Too many requests. Please try again later."}
   ```
 </ResponseField>
-
-## Rate Limits
-
-- Maximum 50 accounts per purchase request
-- Maximum 10 requests per minute
-- Daily purchase limit based on account tier
-
-<Tip>
-  For bulk purchases exceeding 50 accounts, make multiple requests with appropriate delays between them.
-</Tip>
