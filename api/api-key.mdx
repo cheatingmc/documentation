@@ -3,7 +3,6 @@ title: "API Key"
 description: "How to generate and use your API key."
 ---
 
-
 ## Getting your API Key
 
 <Steps>
@@ -26,15 +25,7 @@ description: "How to generate and use your API key."
 Include your API key in the request url:
 
 ```bash
-curl -X GET "https://api.nicealts.com/stock?YOUR_API_KEY"
-```
-
-## Authentication Header
-
-All requests must include the `Authorization` header:
-
-```
-Authorization: Bearer YOUR_API_KEY
+curl -X GET "https://api.nicealts.com/v1/stock?key=YOUR_API_KEY"
 ```
 
 <CardGroup cols={2}>
@@ -44,8 +35,5 @@ Authorization: Bearer YOUR_API_KEY
 If authentication fails, you'll receive:
 
 ```json
-{
-  "error": "Invalid API key",
-  "status": 401
-}
+{"detail": "Invalid API key"}
 ```

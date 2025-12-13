@@ -10,7 +10,7 @@ This endpoint returns current stock levels for all account types.
 ## Endpoint
 
 ```
-GET https://api.nicealts.com/stock
+GET https://api.nicealts.com/v1/stock
 ```
 
 ## Request
@@ -18,7 +18,7 @@ GET https://api.nicealts.com/stock
 <CodeGroup>
 
 ```bash cURL
-curl -X GET "https://api.nicealts.com/stock?YOUR_API_KEY"
+curl -X GET "https://api.nicealts.com/v1/stock?key=YOUR_API_KEY"
 ```
 
 </CodeGroup>
@@ -103,21 +103,14 @@ curl -X GET "https://api.nicealts.com/stock?YOUR_API_KEY"
   Invalid or missing API key
 
   ```json
-  {
-    "error": "Invalid API key",
-    "status": 401
-  }
+  {"detail": "Invalid API key"}
   ```
 </ResponseField>
 
 <ResponseField name="429 Too Many Requests" type="error">
-  Rate limit exceeded. You can send up to 100 requests per second.
+  Rate limit exceeded. You can send up to 100 requests per minute.
 
   ```json
-  {
-    "error": "Rate limit exceeded",
-    "status": 429,
-    "retry_after": 60
-  }
+  {"error": "Rate limit exceeded", "message": "Too many requests. Please try again later."}
   ```
 </ResponseField>
