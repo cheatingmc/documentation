@@ -1,6 +1,6 @@
 ---
-title: Purchase
-description: Purchase accounts via API
+title: "Purchase"
+description: "Purchase accounts via API"
 ---
 
 # Purchase Endpoint
@@ -17,6 +17,7 @@ POST https://api.nicealts.com/purchase
 
 <ParamField path="account_type" type="string" required>
   Type of account to purchase:
+
   - `unbanned_accesstoken`
   - `unbanned_cookie`
   - `unbanned_emailpass`
@@ -29,7 +30,7 @@ POST https://api.nicealts.com/purchase
   Number of accounts to purchase (1-50 per request)
 </ParamField>
 
-<ParamField path="payment_method" type="string" default="credits">
+<ParamField path="payment_method" default="credits" type="string">
   Payment method: `credits` or `crypto`
 </ParamField>
 
@@ -47,6 +48,7 @@ curl -X POST "https://api.nicealts.com/purchase" \
     "payment_method": "credits"
   }'
 ```
+
 
 ```python Python
 import requests
@@ -71,6 +73,7 @@ response = requests.post(
 result = response.json()
 print(result)
 ```
+
 
 ```javascript JavaScript
 const response = await fetch('https://api.nicealts.com/purchase', {
@@ -154,28 +157,23 @@ When using cryptocurrency, you'll receive payment instructions:
 
 <ResponseField name="accounts" type="array">
   Array of purchased accounts (only for credit purchases)
-  
+
   <Expandable title="Account Object">
     <ResponseField name="username" type="string">
       Minecraft username
     </ResponseField>
-    
     <ResponseField name="access_token" type="string">
       Access token for authentication (AccessToken accounts)
     </ResponseField>
-    
     <ResponseField name="cookie" type="string">
       Session cookie (Cookie accounts)
     </ResponseField>
-    
     <ResponseField name="email" type="string">
       Email address (Email:Pass accounts)
     </ResponseField>
-    
     <ResponseField name="password" type="string">
       Password (Email:Pass accounts)
     </ResponseField>
-    
     <ResponseField name="uuid" type="string">
       Minecraft UUID
     </ResponseField>
@@ -268,6 +266,7 @@ result = purchase_accounts(
 
 <ResponseField name="400 Bad Request" type="error">
   Invalid request parameters
+
   ```json
   {
     "error": "Invalid account type",
@@ -278,6 +277,7 @@ result = purchase_accounts(
 
 <ResponseField name="402 Payment Required" type="error">
   Insufficient credits
+
   ```json
   {
     "error": "Insufficient credits",
@@ -290,6 +290,7 @@ result = purchase_accounts(
 
 <ResponseField name="409 Conflict" type="error">
   Insufficient stock
+
   ```json
   {
     "error": "Insufficient stock",
@@ -302,6 +303,7 @@ result = purchase_accounts(
 
 <ResponseField name="429 Too Many Requests" type="error">
   Rate limit exceeded
+
   ```json
   {
     "error": "Rate limit exceeded",
