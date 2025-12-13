@@ -60,15 +60,29 @@ When using credits, accounts are delivered immediately:
 ## Error Responses
 
 <ResponseField name="400 Bad Request" type="error">
-  Invalid type
-
   ```json
   {"detail": "Type must be 'banned' or 'unbanned'"}
+  ```
+
+  ```json
+  {"detail": "Precheck must be 'none' or 'full'"}
+  ```
+</ResponseField>
+
+<ResponseField name="401 Unauthorized" type="error">
+  Invalid or missing API key.
+
+  ```json
+  {"detail": "Missing API key"}
+  ```
+
+  ```json
+  {"detail": "Invalid API key"}
   ```
 </ResponseField>
 
 <ResponseField name="402 Insufficient credits" type="error">
-  Insufficient credits
+  Insufficient credits.
 
   ```json
   {"detail": "Insufficient credits"}
@@ -76,7 +90,7 @@ When using credits, accounts are delivered immediately:
 </ResponseField>
 
 <ResponseField name="409 Conflict" type="error">
-  Insufficient stock
+  Insufficient stock.
 
   ```json
   {"detail":"Insufficient stock"}
@@ -88,5 +102,13 @@ When using credits, accounts are delivered immediately:
 
   ```json
   {"error": "Rate limit exceeded", "message": "Too many requests. Please try again later."}
+  ```
+</ResponseField>
+
+<ResponseField name="503 Service Unavailable" type="error">
+  Backend service unavailable.
+
+  ```json
+  {"error": "Backend service unavailable", "message": "The API server is currently unavailable. Please try again later."}
   ```
 </ResponseField>
