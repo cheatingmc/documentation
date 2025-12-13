@@ -1,26 +1,17 @@
 ---
-title: API Key
-description: How to generate and use your API key
+title: "API Key"
+description: "How to generate and use your API key."
 ---
 
-All API requests require authentication using your unique API key. This key identifies your account and tracks your purchases.
 
-<br />
-
-## Generating Your API Key
+## Getting your API Key
 
 <Steps>
   <Step title="Join Discord">
-    Join our Discord server to get started
+    Join our Discord server to get started.
   </Step>
-  <Step title="Generate Key">
-    Use the command `/generate-api-key` in the appropriate channel
-  </Step>
-  <Step title="Receive Key">
-    The bot will DM you your unique API key
-  </Step>
-  <Step title="Store Securely">
-    Save this key in a secure location
+  <Step title="Get your Key">
+    Use the command `/api-key` in the appropriate channel.
   </Step>
 </Steps>
 
@@ -32,14 +23,11 @@ All API requests require authentication using your unique API key. This key iden
 
 ## Using Your API Key
 
-Include your API key in the request headers:
+Include your API key in the request url:
 
 ```bash
-curl -X GET "https://api.nicealts.com/stock" \
-  -H "Authorization: Bearer YOUR_API_KEY"
+curl -X GET "https://api.nicealts.com/stock?YOUR_API_KEY"
 ```
-
-<br />
 
 ## Authentication Header
 
@@ -49,29 +37,9 @@ All requests must include the `Authorization` header:
 Authorization: Bearer YOUR_API_KEY
 ```
 
-<br />
-
-## Security Best Practices
-
 <CardGroup cols={2}>
-  <Card title="Keep It Secret" icon="lock">
-    Never commit your API key to public repositories or share it in public channels.
-  </Card>
-  
-  <Card title="Rotate Regularly" icon="rotate">
-    Generate a new API key periodically for enhanced security.
-  </Card>
-  
-  <Card title="Monitor Usage" icon="chart-line">
-    Check your API usage regularly to detect any unauthorized access.
-  </Card>
-  
-  <Card title="Use Environment Variables" icon="code">
-    Store your API key in environment variables, not in your code.
-  </Card>
+  ## Error Responses
 </CardGroup>
-
-## Error Responses
 
 If authentication fails, you'll receive:
 
@@ -81,11 +49,3 @@ If authentication fails, you'll receive:
   "status": 401
 }
 ```
-
-## Regenerating Your Key
-
-If your key is compromised:
-
-1. Use `/regenerate-api-key` in Discord
-2. Your old key will be invalidated immediately
-3. Update your applications with the new key
