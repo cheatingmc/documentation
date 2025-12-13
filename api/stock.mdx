@@ -1,11 +1,11 @@
 ---
-title: Stock
-description: Check available account inventory
+title: "Stock"
+description: "Check available inventory."
 ---
 
 # Stock Endpoint
 
-Check available inventory before making purchases. This endpoint returns current stock levels for all account types.
+This endpoint returns current stock levels for all account types.
 
 ## Endpoint
 
@@ -18,145 +18,90 @@ GET https://api.nicealts.com/stock
 <CodeGroup>
 
 ```bash cURL
-curl -X GET "https://api.nicealts.com/stock" \
-  -H "Authorization: Bearer YOUR_API_KEY"
-```
-
-```python Python
-import requests
-
-headers = {
-    "Authorization": "Bearer YOUR_API_KEY"
-}
-
-response = requests.get("https://api.nicealts.com/stock", headers=headers)
-stock = response.json()
-print(stock)
-```
-
-```javascript JavaScript
-const response = await fetch('https://api.nicealts.com/stock', {
-  headers: {
-    'Authorization': 'Bearer YOUR_API_KEY'
-  }
-});
-
-const stock = await response.json();
-console.log(stock);
+curl -X GET "https://api.nicealts.com/stock?YOUR_API_KEY"
 ```
 
 </CodeGroup>
 
-## Response
+## Example Response
 
 ```json
 {
-  "success": true,
-  "stock": {
-    "unbanned_accesstoken": {
-      "available": 150,
-      "price_credits": 10
+  "products": [
+    {
+      "id": "Unban HQ (Cookie)",
+      "price": 15,
+      "stock": 16
     },
-    "unbanned_cookie": {
-      "available": 200,
-      "price_credits": 8
+    {
+      "id": "Unban HQ (AccessToken)",
+      "price": 10,
+      "stock": 0
     },
-    "unbanned_emailpass": {
-      "available": 175,
-      "price_credits": 12
+    {
+      "id": "Unban (AccessToken)",
+      "price": 5,
+      "stock": 48
     },
-    "banned_accesstoken": {
-      "available": 500,
-      "price_credits": 3
+    {
+      "id": "Unban (email:pass)",
+      "price": 5,
+      "stock": 0
     },
-    "banned_cookie": {
-      "available": 450,
-      "price_credits": 2
+    {
+      "id": "Ban HQ (Cookie)",
+      "price": 4,
+      "stock": 6
     },
-    "banned_emailpass": {
-      "available": 400,
-      "price_credits": 4
+    {
+      "id": "Ban (AccessToken)",
+      "price": 1,
+      "stock": 0
+    },
+    {
+      "id": "Ban (email:pass)",
+      "price": 1,
+      "stock": 0
+    },
+    {
+      "id": "Ranked (MFA)",
+      "price": 625,
+      "stock": 0
+    },
+    {
+      "id": "Unban (MFA)",
+      "price": 500,
+      "stock": 0
+    },
+    {
+      "id": "Ban (MFA)",
+      "price": 450,
+      "stock": 0
+    },
+    {
+      "id": "Nitro Gift (1 Month)",
+      "price": 500,
+      "stock": 0
+    },
+    {
+      "id": "Nitro Promo (3 Months)",
+      "price": 175,
+      "stock": 33
+    },
+    {
+      "id": "Nitro Promo (1 Month)",
+      "price": 50,
+      "stock": 0
     }
-  },
-  "last_updated": "2024-12-13T10:30:00Z"
+  ]
 }
-```
-
-## Response Fields
-
-<ResponseField name="success" type="boolean">
-  Indicates if the request was successful
-</ResponseField>
-
-<ResponseField name="stock" type="object">
-  Object containing stock information for each account type
-  
-  <Expandable title="Account Types">
-    <ResponseField name="unbanned_accesstoken" type="object">
-      Full access unbanned accounts with AccessToken
-      - `available`: Number of accounts in stock
-      - `price_credits`: Price per account in credits
-    </ResponseField>
-    
-    <ResponseField name="unbanned_cookie" type="object">
-      Unbanned accounts with Cookie authentication
-    </ResponseField>
-    
-    <ResponseField name="unbanned_emailpass" type="object">
-      Unbanned accounts with email:password format
-    </ResponseField>
-    
-    <ResponseField name="banned_accesstoken" type="object">
-      Banned accounts with AccessToken (discounted)
-    </ResponseField>
-    
-    <ResponseField name="banned_cookie" type="object">
-      Banned accounts with Cookie authentication (discounted)
-    </ResponseField>
-    
-    <ResponseField name="banned_emailpass" type="object">
-      Banned accounts with email:password format (discounted)
-    </ResponseField>
-  </Expandable>
-</ResponseField>
-
-<ResponseField name="last_updated" type="string">
-  ISO 8601 timestamp of when stock was last updated
-</ResponseField>
-
-## Example Use Case
-
-Before purchasing, check if your desired account type is in stock:
-
-```python
-import requests
-
-def check_stock(api_key, account_type):
-    headers = {"Authorization": f"Bearer {api_key}"}
-    response = requests.get("https://api.nicealts.com/stock", headers=headers)
-    
-    if response.status_code == 200:
-        stock = response.json()
-        if stock['stock'][account_type]['available'] > 0:
-            print(f"✓ {account_type} available: {stock['stock'][account_type]['available']}")
-            return True
-        else:
-            print(f"✗ {account_type} out of stock")
-            return False
-    else:
-        print("Error checking stock")
-        return False
-
-# Check before purchase
-if check_stock("your_api_key", "unbanned_accesstoken"):
-    # Proceed with purchase
-    pass
 ```
 
 ## Error Responses
 
 <ResponseField name="401 Unauthorized" type="error">
   Invalid or missing API key
+
   ```json
   {
     "error": "Invalid API key",
@@ -166,7 +111,8 @@ if check_stock("your_api_key", "unbanned_accesstoken"):
 </ResponseField>
 
 <ResponseField name="429 Too Many Requests" type="error">
-  Rate limit exceeded
+  Rate limit exceeded. You can send up to 100 requests per second.
+
   ```json
   {
     "error": "Rate limit exceeded",
