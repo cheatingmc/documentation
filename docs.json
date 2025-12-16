@@ -52,8 +52,8 @@
       "pages": [
         "api/api-key",
         "api/stock",
-        "api/purchase",
-        "api/balance"
+        "api/balance",
+        "api/purchase"
       ]
     }
   ],
