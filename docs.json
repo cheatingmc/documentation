@@ -1,72 +1,62 @@
 {
-  "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "Nice Alts Docs",
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "Nice Alts",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
+  },
+  "favicon": "/favicon.svg",
   "colors": {
     "primary": "#5865F2",
     "light": "#7289DA",
-    "dark": "#4752C4"
+    "dark": "#4752C4",
+    "anchors": {
+      "from": "#5865F2",
+      "to": "#7289DA"
+    }
   },
-  "favicon": "/favicon.svg",
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+  "topbarLinks": [
+    {
+      "name": "Support",
+      "url": "https://discord.gg/nicealts"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "Dashboard",
+    "url": "https://nicealts.com"
   },
-  "navigation": {
-    "tabs": [
-      {
-        "tab": "Documentation",
-        "groups": [
-          {
-            "group": "Getting Started",
-            "pages": [
-              "welcome",
-              "faq"
-            ]
-          },
-          {
-            "group": "API",
-            "pages": [
-              "api/api-key",
-              "api/stock",
-              "api/purchase"
-            ]
-          }
-        ]
-      }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Discord",
-          "href": "https://discord.gg/your-invite",
-          "icon": "discord"
-        }
+  "tabs": [],
+  "anchors": [
+    {
+      "name": "Discord",
+      "icon": "discord",
+      "url": "https://discord.gg/your-invite"
+    },
+    {
+      "name": "Shop",
+      "icon": "cart-shopping",
+      "url": "https://nicealts.com"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Getting Started",
+      "pages": [
+        "welcome",
+        "faq"
+      ]
+    },
+    {
+      "group": "API",
+      "pages": [
+        "api/api-key",
+        "api/stock",
+        "api/purchase",
+        "api/balance"
       ]
     }
-  },
-  "navbar": {
-    "links": [
-      {
-        "label": "Shop",
-        "href": "https://nicealts.com"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Get Started",
-      "href": "/welcome"
-    }
-  },
-  "contextual": {
-    "options": [
-      "copy",
-      "view"
-    ]
-  },
-  "footer": {
-    "socials": {
-      "discord": "https://discord.gg/nicealts"
-    }
+  ],
+  "footerSocials": {
+    "discord": "https://discord.gg/nicealts"
   }
 }

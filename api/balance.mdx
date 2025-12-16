@@ -1,0 +1,44 @@
+---
+title: "Balance"
+description: "Check available balance."
+---
+
+## Endpoint
+
+```
+GET https://api.nicealts.com/v1/balance
+```
+
+## Request
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET "https://api.nicealts.com/v1/balance?key=YOUR_API_KEY"
+```
+
+</CodeGroup>
+
+## Example Response
+
+```json
+{"user_id":"928959486390054932","balance":3471}
+```
+
+## Error Responses
+
+<ResponseField name="401 Unauthorized" type="error">
+  Invalid or missing API key
+
+  ```json
+  {"detail": "Invalid API key"}
+  ```
+</ResponseField>
+
+<ResponseField name="429 Too Many Requests" type="error">
+  Rate limit exceeded. You can send up to 100 requests per minute.
+
+  ```json
+  {"error": "Rate limit exceeded", "message": "Too many requests. Please try again later."}
+  ```
+</ResponseField>
