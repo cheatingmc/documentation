@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "name": "Nice Alts",
-  "theme": "palm",
+  "theme": "mint",
   "logo": {
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg"
@@ -10,11 +10,7 @@
   "colors": {
     "primary": "#5865F2",
     "light": "#7289DA",
-    "dark": "#4752C4",
-    "anchors": {
-      "from": "#5865F2",
-      "to": "#7289DA"
-    }
+    "dark": "#4752C4"
   },
   "topbarLinks": [
     {
@@ -26,12 +22,11 @@
     "name": "Dashboard",
     "url": "https://nicealts.com"
   },
-  "tabs": [],
   "anchors": [
     {
       "name": "Discord",
       "icon": "discord",
-      "url": "https://discord.gg/your-invite"
+      "url": "https://discord.gg/nicealts"
     },
     {
       "name": "Shop",
