@@ -1,4 +1,5 @@
 {
+  "$schema": "https://mintlify.com/docs.json",
   "name": "Nice Alts",
   "theme": "mint",
   "logo": {
@@ -33,25 +34,29 @@
       "url": "https://nicealts.com"
     }
   ],
-  "navigation": [
-    {
-      "group": "Getting Started",
-      "pages": [
-        "welcome",
-        "faq"
-      ]
-    },
-    {
-      "group": "API",
-      "pages": [
-        "api/api-key",
-        "api/stock",
-        "api/balance",
-        "api/purchase"
-      ]
+  "navigation": {
+    "groups": [
+      {
+        "group": "Getting Started",
+        "pages": [
+          "welcome",
+          "faq"
+        ]
+      },
+      {
+        "group": "API",
+        "pages": [
+          "api-key",
+          "stock",
+          "balance",
+          "purchase"
+        ]
+      }
+    ]
+  },
+  "footer": {
+    "socials": {
+      "discord": "https://discord.gg/nicealts"
     }
-  ],
-  "footerSocials": {
-    "discord": "https://discord.gg/nicealts"
   }
 }
