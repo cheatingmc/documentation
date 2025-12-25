@@ -1,113 +1,57 @@
 {
-  "$schema": "https://mintlify.com/docs.json",
-  "name": "Mint Starter Kit",
-  "color": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+  "name": "Nice Alts",
+  "theme": "mint",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
   },
   "favicon": "/favicon.svg",
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+  "colors": {
+    "primary": "#5865F2",
+    "light": "#7289DA",
+    "dark": "#4752C4"
+  },
+  "topbarLinks": [
+    {
+      "name": "Support",
+      "url": "https://discord.gg/nicealts"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "Dashboard",
+    "url": "https://nicealts.com"
   },
   "anchors": [
     {
-      "name": "Documentation",
-      "url": "https://mintlify.com/docs",
-      "icon": "book-open-cover"
+      "name": "Discord",
+      "icon": "discord",
+      "url": "https://discord.gg/nicealts"
     },
     {
-      "name": "Blog",
-      "url": "https://mintlify.com/blog",
-      "icon": "newspaper"
-    }
-  ],
-  "tabs": [
-    {
-      "name": "API reference",
-      "url": "api-reference"
+      "name": "Shop",
+      "icon": "cart-shopping",
+      "url": "https://nicealts.com"
     }
   ],
   "navigation": [
     {
-      "group": "Getting started",
+      "group": "Getting Started",
       "pages": [
-        "index",
-        "quickstart",
-        "development"
+        "welcome",
+        "faq"
       ]
     },
     {
-      "group": "Customization",
+      "group": "API",
       "pages": [
-        "essentials/settings",
-        "essentials/navigation"
-      ]
-    },
-    {
-      "group": "Writing content",
-      "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/reusable-snippets"
-      ]
-    },
-    {
-      "group": "AI tools",
-      "pages": [
-        "ai-tools/cursor",
-        "ai-tools/claude-code",
-        "ai-tools/windsurf"
-      ]
-    },
-    {
-      "group": "API documentation",
-      "pages": [
-        "api-reference/introduction"
-      ]
-    },
-    {
-      "group": "Endpoint examples",
-      "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete",
-        "api-reference/endpoint/webhook"
+        "api-key",
+        "stock",
+        "balance",
+        "purchase"
       ]
     }
   ],
-  "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
-    }
-  },
-  "contextual": {
-    "options": [
-      "copy",
-      "view",
-      "chatgpt",
-      "claude",
-      "perplexity",
-      "mcp",
-      "cursor",
-      "vscode"
-    ]
-  },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
+  "footerSocials": {
+    "discord": "https://discord.gg/nicealts"
   }
 }
