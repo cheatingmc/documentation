@@ -46,10 +46,10 @@
       {
         "group": "API",
         "pages": [
-          "api-key",
-          "stock",
-          "balance",
-          "purchase"
+          "api/api-key",
+          "api/stock",
+          "api/balance",
+          "api/purchase"
         ]
       }
     ]
